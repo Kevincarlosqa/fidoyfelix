@@ -1,0 +1,130 @@
+@import "tailwindcss";
+
+/* ── Fido&Felix brand tokens ─────────────────────────────── */
+@theme inline {
+  --font-sans: var(--font-jakarta);
+  --font-display: var(--font-anton);
+}
+
+@theme {
+  --color-navy: #13214a;
+  --color-navy-deep: #0b1533;
+  --color-navy-soft: #24356b;
+  --color-cream: #fbf6ee;
+  --color-paper: #fffdf8;
+  --color-sun: #ffc93c;
+  --color-sun-deep: #f5b301;
+  --color-tangerine: #ff6b35;
+  --color-sky: #38b6ff;
+  --color-bubble: #ff6fa5;
+  --color-mint: #4fd1a5;
+  --color-lilac: #b9a4ff;
+  --color-ink: #13214a;
+  --color-muted: #5b6687;
+  --color-line: #e7e0d3;
+
+  /* Paleta categórica validada para gráficos (orden fijo) */
+  --color-chart-1: #1f4fb4;
+  --color-chart-2: #e8590c;
+  --color-chart-3: #4fb3e8;
+  --color-chart-4: #c2185b;
+  --color-chart-5: #2f9e5b;
+
+  --animate-marquee: marquee 28s linear infinite;
+  --animate-spin-slow: spin 18s linear infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-wiggle: wiggle 2.4s ease-in-out infinite;
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); }
+    50% { transform: translateY(-14px) rotate(var(--r, 0deg)); }
+  }
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(-6deg); }
+    50% { transform: rotate(6deg); }
+  }
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+body {
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-sun);
+  color: var(--color-navy);
+}
+
+/* ── Utilidades de marca ─────────────────────────────────── */
+@utility font-display {
+  font-family: var(--font-display), Impact, sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+  line-height: 0.92;
+}
+
+/* Cuadrícula tipo papel milimétrico, como en la referencia */
+@utility bg-grid {
+  background-image:
+    linear-gradient(to right, rgb(19 33 74 / 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(19 33 74 / 0.06) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+@utility bg-grid-light {
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.18) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.18) 1px, transparent 1px);
+  background-size: 36px 36px;
+}
+
+/* Borde perforado de "ticket" / estampilla */
+@utility stamp {
+  mask:
+    radial-gradient(circle 6px at 50% 0, #0000 98%, #000) top / 20px 51% repeat-x,
+    radial-gradient(circle 6px at 50% 100%, #0000 98%, #000) bottom / 20px 51% repeat-x;
+}
+
+/* Sombra "sticker" sólida */
+@utility shadow-sticker {
+  box-shadow: 6px 6px 0 0 var(--color-navy);
+}
+
+@utility shadow-sticker-sm {
+  box-shadow: 3px 3px 0 0 var(--color-navy);
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
