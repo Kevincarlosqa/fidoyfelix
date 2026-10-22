@@ -38,9 +38,9 @@ export function Stats() {
         {STATS.map((s, i) => (
           <div
             key={s.label}
-            className={`${s.bg} relative z-10 rounded-[28px] border-2 border-navy p-6 text-navy shadow-sticker-sm ${i % 2 ? "lg:translate-y-6" : ""}`}
+            className={`${s.bg} relative z-10 rounded-[28px] border-2 border-navy p-4 text-navy sm:p-6 shadow-sticker-sm ${i % 2 ? "lg:translate-y-6" : ""}`}
           >
-            <p className="font-display text-6xl md:text-7xl">
+            <p className="font-display whitespace-nowrap text-[clamp(2.25rem,10.5vw,3.75rem)] md:text-7xl">
               <Counter to={s.value} decimals={s.decimals} />
               {s.suffix}
             </p>

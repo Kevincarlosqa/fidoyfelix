@@ -9,7 +9,12 @@ import { seedBase, seedDemo } from "./seed-data";
 const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };
 
 function createClient() {
-  const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
+  const adapter = new PrismaPg({
+    connectionString: process.env.DATABASE_URL,
+    // Renueva conexiones para no reutilizar sockets que la base (o el pooler) ya cerró.
+    idleTimeoutMillis: 10_000,
+    maxLifetimeSeconds: 300,
+  });
   return new PrismaClient({ adapter });
 }
 

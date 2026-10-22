@@ -50,12 +50,12 @@ export function WhatsAppDemo() {
         />
         <div className="bg-grid-light pointer-events-none absolute inset-0 opacity-30" />
 
-        <div className="relative mx-auto grid w-full max-w-6xl items-center gap-10 px-5 md:px-6 lg:grid-cols-2">
+        <div className="relative mx-auto grid w-full max-w-6xl items-center gap-6 px-5 md:px-6 lg:grid-cols-2 lg:gap-10">
           <div>
             <p className="inline-flex items-center gap-2 rounded-full border-2 border-sun px-3 py-1 text-xs font-bold uppercase tracking-wider text-sun">
               <Sparkles className="size-3.5" /> Reservas con IA 24/7
             </p>
-            <h2 className="font-display mt-5 text-6xl md:text-8xl">
+            <h2 className="font-display mt-4 text-5xl sm:text-6xl md:text-8xl">
               Agenda en <span className="text-sun">30 segundos</span>
             </h2>
             <ol className="mt-8 hidden space-y-3 md:block">
@@ -81,14 +81,14 @@ export function WhatsAppDemo() {
               href={whatsappLink()}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#25D366] px-6 py-3 font-bold text-navy-deep transition hover:-translate-y-0.5"
+              className="mt-5 inline-flex items-center gap-2 rounded-full bg-[#25D366] px-5 py-2.5 font-bold lg:mt-8 lg:px-6 lg:py-3 text-navy-deep transition hover:-translate-y-0.5"
             >
               <WhatsAppIcon className="size-5" /> Probarlo ahora
             </a>
           </div>
 
           {/* Teléfono */}
-          <motion.div style={{ rotate: phoneRotate }} className="relative z-10 mx-auto w-full max-w-[330px]">
+          <motion.div style={{ rotate: phoneRotate }} className="relative z-10 mx-auto w-full max-w-[290px] sm:max-w-[330px]">
             <div className="rounded-[46px] border-[10px] border-navy-deep bg-navy-deep shadow-[0_40px_80px_-20px_rgba(0,0,0,0.6)]">
               <div className="overflow-hidden rounded-[36px] bg-[#efe7dc]">
                 <div className="flex items-center gap-3 bg-[#0b5c4f] px-4 pb-3 pt-6 text-white">
@@ -100,7 +100,7 @@ export function WhatsAppDemo() {
                     <p className="text-[11px] text-white/80">{visible % 2 === 1 && visible < CHAT.length ? "escribiendo…" : "en línea"}</p>
                   </div>
                 </div>
-                <div data-lenis-prevent className="flex h-[440px] flex-col justify-end gap-2 overflow-hidden p-3">
+                <div data-lenis-prevent className="flex h-[clamp(200px,38dvh,440px)] flex-col justify-end gap-2 overflow-hidden p-3 lg:h-[440px]">
                   <AnimatePresence initial={false}>
                     {CHAT.slice(0, visible).map((m, i) => (
                       <motion.div

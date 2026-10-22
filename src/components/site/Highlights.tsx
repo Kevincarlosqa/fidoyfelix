@@ -28,19 +28,24 @@ export function Highlights() {
   return (
     <section className="relative mx-auto grid max-w-6xl gap-8 px-5 py-20 md:grid-cols-2 md:px-6">
       <Reveal className="relative z-10">
-        <div className="relative ml-16 flex min-h-48 items-stretch rounded-3xl border-2 border-navy bg-paper md:ml-24">
-          <div className="flex flex-1 flex-col justify-center py-6 pl-20 pr-4 md:pl-24">
+        <div className="relative flex flex-col overflow-hidden rounded-3xl border-2 border-navy bg-paper sm:ml-16 sm:min-h-48 sm:flex-row sm:items-stretch sm:overflow-visible md:ml-24">
+          {/* Móvil: la foto va como encabezado de la tarjeta */}
+          <div className="relative h-48 border-b-2 border-navy bg-tangerine sm:hidden">
+            <Image src={unsplash(PHOTOS.corgiOrange, 700, 420)} alt="Corgi feliz" fill sizes="100vw" className="object-cover object-[50%_30%]" />
+          </div>
+          <div className="flex flex-1 flex-col justify-center p-6 sm:py-6 sm:pl-20 sm:pr-4 md:pl-24">
             <h3 className="font-display text-3xl text-navy">Membresía Club Peludo</h3>
             <p className="mt-2 text-sm text-muted">Baño mensual, uñas ilimitadas y 15% en spa.</p>
             <a href="#reservar" className="mt-3 inline-flex items-center gap-1 text-sm font-bold text-navy underline underline-offset-4">
               Quiero unirme <ArrowUpRight className="size-4" />
             </a>
           </div>
-          <div className="hidden place-items-center border-l-2 border-navy px-3 sm:grid">
+          <div className="grid place-items-center border-t-2 border-navy px-3 py-3 sm:border-l-2 sm:border-t-0 sm:py-0">
             <RotatingPrice price="S/140" label="al mes" />
           </div>
         </div>
-        <div className="absolute -left-2 bottom-0 h-56 w-40 md:-left-4 md:h-64 md:w-48">
+        {/* Escritorio: foto en arco que sobresale por la izquierda */}
+        <div className="absolute -left-2 bottom-0 hidden h-56 w-40 sm:block md:-left-4 md:h-64 md:w-48">
           <div className="relative size-full overflow-hidden rounded-t-full rounded-b-3xl border-2 border-navy bg-tangerine">
             <Image src={unsplash(PHOTOS.corgiOrange, 400, 520)} alt="Corgi feliz" fill sizes="200px" className="object-cover" />
           </div>

@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "motion/react";
+import { useEffect, useRef } from "react";
+import { motion, useMotionValue, useScroll, useTransform, type MotionValue } from "motion/react";
 import { ArrowDownRight, Star } from "lucide-react";
 import { Bone, Heart, Paw, WhatsAppIcon } from "@/components/brand/Paw";
 import { PHOTOS, unsplash } from "@/lib/catalog";
@@ -25,15 +25,29 @@ function Line({ children, delay }: { children: React.ReactNode; delay: number })
   );
 }
 
+/** base + progreso·distancia, escalado por `strength` (0 desactiva el parallax). */
+function useParallax(progress: MotionValue<number>, strength: MotionValue<number>, distance: number, base = 0) {
+  return useTransform([progress, strength], ([p, k]: number[]) => base + p * distance * k);
+}
+
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const imgY = useTransform(scrollYProgress, [0, 1], [0, 140]);
-  const archY = useTransform(scrollYProgress, [0, 1], [0, 60]);
-  const badgeY = useTransform(scrollYProgress, [0, 1], [0, -120]);
-  const ticketY = useTransform(scrollYProgress, [0, 1], [0, -60]);
-  const ticketR = useTransform(scrollYProgress, [0, 1], [-4, -14]);
-  const textY = useTransform(scrollYProgress, [0, 1], [0, 80]);
+  // En celulares no hay parallax: las piezas del collage se encimarían sobre el perrito.
+  const strength = useMotionValue(1);
+  useEffect(() => {
+    const mql = window.matchMedia("(min-width: 640px)");
+    const update = () => strength.set(mql.matches ? 1 : 0);
+    update();
+    mql.addEventListener("change", update);
+    return () => mql.removeEventListener("change", update);
+  }, [strength]);
+  const imgY = useParallax(scrollYProgress, strength, 140);
+  const archY = useParallax(scrollYProgress, strength, 60);
+  const badgeY = useParallax(scrollYProgress, strength, -120);
+  const ticketY = useParallax(scrollYProgress, strength, -60);
+  const ticketR = useParallax(scrollYProgress, strength, -10, -4);
+  const textY = useParallax(scrollYProgress, strength, 80);
 
   return (
     <section ref={ref} className="bg-grid relative overflow-hidden pb-20 pt-32 md:pb-28 md:pt-40">
@@ -128,8 +142,9 @@ export function Hero() {
           </motion.div>
         </motion.div>
 
-        {/* Collage visual */}
-        <div className="relative mx-auto aspect-[4/5] w-full max-w-[460px]">
+        {/* Collage visual. En móvil el ticket va debajo de la foto para no tapar al perrito. */}
+        <div className="relative mx-auto w-full max-w-[460px]">
+          <div className="relative aspect-[4/5] w-full">
           <motion.div
             style={{ y: archY }}
             initial={{ scaleY: 0, opacity: 0 }}
@@ -163,7 +178,7 @@ export function Hero() {
             initial={{ scale: 0, rotate: -90 }}
             animate={{ scale: 1, rotate: 0 }}
             transition={{ duration: 0.8, delay: 0.7, ease }}
-            className="absolute -right-2 top-1/3 z-10 size-32 md:-right-8 md:size-36"
+            className="absolute -right-1 top-[12%] z-10 size-24 sm:-right-2 sm:top-1/3 sm:size-32 md:-right-8 md:size-36"
           >
             <div className="relative size-full rounded-full border-[3px] border-navy bg-sun shadow-sticker-sm">
               <svg viewBox="0 0 100 100" className="animate-spin-slow absolute inset-0 size-full">
@@ -176,9 +191,10 @@ export function Hero() {
                   </textPath>
                 </text>
               </svg>
-              <Paw className="absolute left-1/2 top-1/2 size-9 -translate-x-1/2 -translate-y-1/2 text-navy" />
+              <Paw className="absolute left-1/2 top-1/2 size-7 -translate-x-1/2 -translate-y-1/2 text-navy sm:size-9" />
             </div>
           </motion.div>
+          </div>
 
           {/* Ticket estilo estampilla */}
           <motion.div
@@ -186,7 +202,7 @@ export function Hero() {
             initial={{ opacity: 0, x: -40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.9, ease }}
-            className="absolute -left-3 bottom-10 z-10 md:-left-14"
+            className="relative z-10 mx-auto mt-6 w-fit sm:absolute sm:-left-3 sm:bottom-10 sm:mx-0 sm:mt-0 md:-left-14"
           >
             <div className="stamp bg-tangerine px-1 py-3 drop-shadow-[4px_4px_0_#13214a]">
               <div className="flex items-stretch border-2 border-dashed border-white/70 text-white">
@@ -212,8 +228,8 @@ export function Hero() {
             transition={{ delay: 1.1, type: "spring" }}
             className="absolute left-0 top-16 z-10 md:-left-6"
           >
-            <div className="animate-float grid size-16 place-items-center rounded-full border-2 border-navy bg-paper shadow-sticker-sm [--r:-12deg]">
-              <Bone className="size-9 text-sun-deep" />
+            <div className="animate-float grid size-12 place-items-center rounded-full border-2 border-navy bg-paper shadow-sticker-sm [--r:-12deg] sm:size-16">
+              <Bone className="size-7 text-sun-deep sm:size-9" />
             </div>
           </motion.div>
 
@@ -224,7 +240,7 @@ export function Hero() {
             transition={{ delay: 1.25, type: "spring" }}
             className="absolute -top-2 right-6 z-10"
           >
-            <div className="animate-float relative size-20 overflow-hidden rounded-full border-[3px] border-navy bg-sky [animation-delay:1s]">
+            <div className="animate-float relative size-16 overflow-hidden sm:size-20 rounded-full border-[3px] border-navy bg-sky [animation-delay:1s]">
               <Image src={unsplash(PHOTOS.catBlue, 200, 200)} alt="Gato" fill sizes="80px" className="object-cover" />
             </div>
           </motion.div>
@@ -234,7 +250,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 20, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ delay: 1.6, duration: 0.6, ease }}
-            className="absolute -bottom-6 right-0 z-10 w-56 rounded-2xl border-2 border-navy bg-paper p-3 shadow-sticker-sm md:-right-10"
+            className="absolute -bottom-6 right-0 z-10 hidden w-56 rounded-2xl sm:block border-2 border-navy bg-paper p-3 shadow-sticker-sm md:-right-10"
           >
             <div className="flex items-center gap-2">
               <span className="grid size-8 place-items-center rounded-full bg-[#25D366] text-white">
