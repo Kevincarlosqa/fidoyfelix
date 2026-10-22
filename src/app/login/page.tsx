@@ -3,6 +3,8 @@ import Link from "next/link";
 import { LogoMark, Wordmark } from "@/components/brand/Logo";
 import { Paw } from "@/components/brand/Paw";
 import { LoginForm } from "./LoginForm";
+import { DEMO_MODE } from "@/lib/demo";
+import { DEMO_ADMIN } from "@/lib/seed-data";
 
 export const metadata: Metadata = { title: "Acceso equipo" };
 
@@ -40,6 +42,19 @@ export default async function LoginPage({ searchParams }: PageProps<"/login">) {
           <LogoMark size={72} className="rounded-2xl" />
           <h1 className="font-display mt-8 text-5xl text-navy">Iniciar sesión</h1>
           <p className="mt-2 text-sm text-muted">Acceso exclusivo para el equipo de Fido&amp;Felix.</p>
+          {DEMO_MODE && (
+            <div className="mt-6 rounded-2xl border-2 border-dashed border-navy/30 bg-sun/30 p-4 text-sm text-navy">
+              <p className="font-bold">🧪 Modo demo</p>
+              <p className="mt-1 text-navy/80">
+                No hay base de datos configurada: se usan datos de ejemplo que se reinician solos.
+              </p>
+              <p className="mt-2">
+                Correo: <code className="font-bold">{DEMO_ADMIN.email}</code>
+                <br />
+                Contraseña: <code className="font-bold">{DEMO_ADMIN.password}</code>
+              </p>
+            </div>
+          )}
           <LoginForm next={typeof next === "string" ? next : undefined} />
           <Link href="/" className="mt-8 block text-center text-sm font-semibold text-muted hover:text-navy">
             ← Volver al sitio

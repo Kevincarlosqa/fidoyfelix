@@ -15,6 +15,10 @@ Landing animada + reservas por WhatsApp con IA + dashboard de gestión y métric
 | Dashboard | `/dashboard` | Métricas (KPIs vs periodo anterior, ingresos, reservas por canal, servicios top, horas pico), reservas (filtros, estados, asignación, reprogramar, notas, alta manual), agenda por día, clientes, bandeja de WhatsApp (tomar control de la IA y responder), simulador del bot, servicios y usuarios. |
 | Acceso | `/login` | Solo usuarios creados por un admin. Roles **ADMIN** (todo) y **STAFF** (sin servicios ni usuarios). |
 
+## Modo demo (sin configurar nada)
+
+Si no defines `DATABASE_URL` (o pones `DEMO_MODE=true`), la app crea una base Postgres **en memoria** con servicios, clientes y reservas de ejemplo. Entra con `admin@fidofelix.mx` / `FidoFelix2026!`. Los cambios no son permanentes: cada instancia del servidor arranca con datos nuevos. Para producción configura Supabase y `AUTH_SECRET`.
+
 ## Puesta en marcha
 
 ```bash

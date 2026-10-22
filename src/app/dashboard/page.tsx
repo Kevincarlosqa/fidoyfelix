@@ -47,7 +47,7 @@ function Kpi({
     <Card className="relative overflow-hidden">
       <span className={cn("absolute right-0 top-0 h-full w-1.5", accent)} />
       <p className="text-xs font-semibold text-muted">{label}</p>
-      <p className="font-display mt-2 text-4xl text-navy">{value}</p>
+      <p className="font-display mt-2 text-[clamp(1.75rem,2.3vw,2.25rem)] text-navy">{value}</p>
       <p className="mt-1 flex items-center gap-1 text-xs text-muted">
         <Delta value={delta} unit={unit} invert={invert} /> vs periodo anterior
       </p>
